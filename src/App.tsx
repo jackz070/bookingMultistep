@@ -4,16 +4,13 @@ import SeatSelect from "./components/formPages/SeatSelect";
 import Summary from "./components/formPages/Summary";
 import TicketSelect from "./components/formPages/TicketSelect";
 import { FormData } from "./types";
-
-//VALIDATION FLOW needs: field is ready state, unless that's true it has an error listed in errors array. Next button disabled until all fields in here have ready === true. Errors display after user leaves the field with invalid data present (including no data) or clicks disabled button (if its possible)
-
-//IDEA field component that does the validation with provided function, knows its name, has a ref AND and a formStep component that handles if we can go further. Goal: ability to move fields within steps freely and steps within form too. Field component gets validation function from box of those, checks value against it, sets "ready" flag in the step component, displays error if needed. To start it's just text field
+import pic1 from "./assets/pic1.jpg";
 
 const INIT_DATA: FormData = {
   firstName: "",
   lastName: "",
-  fullPriceTickets: "",
-  reducedPriceTickets: "",
+  fullPriceTickets: "0",
+  reducedPriceTickets: "0",
   selectedSeats: [],
   emailAdress: "",
 };
@@ -30,6 +27,7 @@ function App() {
   const [validSteps, setValidSteps] = useState<number[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [displayErrors, setDisplayErrors] = useState(false);
+  const currentStepIsValid = validSteps.includes(currentStep);
 
   const steps = [
     <TicketSelect
@@ -63,7 +61,7 @@ function App() {
   ];
 
   const next = () => {
-    if (validSteps.includes(currentStep)) {
+    if (currentStepIsValid) {
       setCurrentStep((step) => (step >= steps.length ? step : step + 1));
       setDisplayErrors(false);
     } else {
@@ -73,6 +71,7 @@ function App() {
 
   const prev = () => {
     setCurrentStep((step) => (step <= 0 ? step : step - 1));
+    setDisplayErrors(false);
   };
 
   let step = steps[currentStep];
@@ -86,9 +85,9 @@ function App() {
   };
 
   return (
-    <div className="w-full h-[100vh] flex  items-center justify-center bg-slate-200">
-      <div className="w-1/3 h-3/5 bg-white relative  min-h-[28rem] min-w-[40rem] flex sm:flex-row flex-col-reverse">
-        <form onSubmit={onSubmit} className="p-12 pt-20">
+    <div className="w-full h-[100vh] flex  items-center justify-center sm:bg-slate-200 bg-white">
+      <div className="w-[100vw] sm:w-[38rem] h-full sm:h-2/5 sm:bg-white bg-transparent relative  min-h-[31rem] flex ">
+        <form onSubmit={onSubmit} className="p-12 pt-20  sm:w-[60%] w-full">
           <div
             className="absolute top-12 left-12 text-sm
         "
@@ -108,12 +107,23 @@ function App() {
             )}
             <button
               type="submit"
-              className="bg-blue-400 text-white py-2 px-6 rounded-md cursor-pointer disabled:bg-blue-300 disabled:text-gray-100 hover:bg-blue-300"
+              className={`${
+                !isLastStep ? "bg-blue-400" : ""
+              } text-white py-2 px-6 rounded-md cursor-pointer ${
+                !currentStepIsValid &&
+                !isLastStep &&
+                `bg-blue-300 text-gray-100 `
+              } hover:bg-blue-300 ${
+                isLastStep && "bg-green-500 hover:bg-green-400"
+              }`}
             >
-              {isLastStep ? "Finish" : "Next"}
+              {isLastStep ? "Confirm" : "Next"}
             </button>
           </div>
         </form>
+        <div className="overflow-hidden sm:block hidden -top-80 ">
+          <img src={pic1} className="h-full w-full rounded-r-sm opacity-95 " />
+        </div>
       </div>
     </div>
   );

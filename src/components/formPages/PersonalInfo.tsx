@@ -9,7 +9,7 @@ import {
 import { StepProps } from "../../types";
 import { FormData } from "../../types";
 
-type PersonalInfoProps = Partial<FormData> & StepProps;
+type PersonalInfoProps = FormData & StepProps;
 
 const PersonalInfo = ({
   firstName,
@@ -37,6 +37,7 @@ const PersonalInfo = ({
       setValidSteps(newValidSteps);
     }
   }, [stepIsValid]);
+
   return (
     <FormWrapper title="Personal Info">
       <FormField

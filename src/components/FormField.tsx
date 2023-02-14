@@ -1,18 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FormData, StepProps } from "../types";
+import { FieldProps } from "../types";
 
-type FormFieldProps = FormData &
-  StepProps & {
-    fieldDesc: string;
-    fieldName: string;
-    value: string;
-    type: string;
-    validation: (...args: any) => boolean | string | void;
-    isValid: string[] | {};
-    setIsValid: (value: any) => void;
-    globalValidate: boolean;
-    setGlobalValidationError?: (value: string) => void;
-  };
+type FormFieldProps = FieldProps & {
+  fieldDesc: string;
+  fieldName: string;
+  value: string;
+  type: string;
+  validation: (...args: any) => boolean | string | void;
+  isValid: string[] | {};
+  setIsValid: (value: any) => void;
+  globalValidate?: boolean;
+  setGlobalValidationError?: (value: string) => void;
+  min?: string;
+  max?: string;
+};
 
 const FormField = ({
   fieldDesc,
@@ -26,6 +27,8 @@ const FormField = ({
   type,
   globalValidate = false,
   setGlobalValidationError,
+  min,
+  max,
 }: FormFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const [touched, setTouched] = useState(false);
@@ -44,11 +47,8 @@ const FormField = ({
     }
   }, [isFocused]);
 
-  const inputRef = useRef(null);
-  // IF validation function without params let it be ()=>void to validate against data in state (optional globalValidation param?)
   const updateAndValidate = (value: string) => {
     updateData({ [fieldName]: value });
-
     if (globalValidate) {
       if (validation()) {
         setError("");
@@ -80,7 +80,7 @@ const FormField = ({
 
   useEffect(() => {
     updateAndValidate(value);
-  }, [displayErrors]);
+  }, [displayErrors, value]);
 
   return (
     <div className="flex flex-col gap-1 items-start mb-1">
@@ -89,9 +89,10 @@ const FormField = ({
       <input
         type={type}
         value={value}
-        onChange={(e) => updateAndValidate(e.target.value)}
+        onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+          updateAndValidate(e.target.value)
+        }
         className="bg-gray-200 p-1"
-        ref={inputRef}
         onFocus={() => {
           setIsFocused(true);
         }}
@@ -99,6 +100,8 @@ const FormField = ({
           updateAndValidate(e.target.value);
           setIsFocused(false);
         }}
+        min={min ? min : undefined}
+        max={max ? max : undefined}
       />
 
       <div className="text-xs text-red-500 h-3">

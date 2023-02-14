@@ -4,12 +4,11 @@ import FormField from "../FormField";
 import { StepProps, FormData } from "../../types";
 
 interface TicketSelect {
-  fullPriceTickets: number;
-  reducedPriceTickets: number;
+  fullPriceTickets: string;
+  reducedPriceTickets: string;
 }
 
-type TicketSelectProps = Partial<FormData> &
-  StepProps & { globalValidate: boolean };
+type TicketSelectProps = TicketSelect & StepProps & { globalValidate: boolean };
 
 const TicketSelect = ({
   fullPriceTickets,
@@ -57,6 +56,8 @@ const TicketSelect = ({
             type="number"
             globalValidate={true}
             setGlobalValidationError={setGlobalValidationError}
+            min="0"
+            max="8"
           />
           <FormField
             fieldDesc="Reduced Price Tickets"
@@ -70,6 +71,8 @@ const TicketSelect = ({
             type="number"
             globalValidate={true}
             setGlobalValidationError={setGlobalValidationError}
+            min="0"
+            max="8"
           />
         </div>
         {displayErrors && globalValidationError && (

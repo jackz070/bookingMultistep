@@ -12,7 +12,7 @@ const Summary = ({
   return (
     <FormWrapper title="Summary">
       <div className="leading-relaxed">
-        Dear {firstName} {lastName}. You are ordering:
+        {firstName} {lastName}, your order consists of:
         <br />
         <div className="flex flex-col  gap-2 mx-4 my-4">
           {fullPriceTickets && parseInt(fullPriceTickets) >= 1 && (
@@ -28,9 +28,8 @@ const Summary = ({
             </span>
           )}
         </div>
-        If everything is alright confirm your order below.
-        <br /> Confirmation will be sent to {emailAdress}.<br /> If something is
-        wrong go back and update your order.
+        Confirm your order below and receive order summary at {emailAdress}.
+        <br />
       </div>
     </FormWrapper>
   );

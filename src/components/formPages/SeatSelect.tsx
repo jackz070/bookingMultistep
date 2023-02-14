@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import FormWrapper from "../FormWrapper";
 import { StepProps } from "../../types";
 
 interface SeatSelect {
   selectedSeats: string[];
-  fullPriceTickets: number[];
-  reducedPriceTickets: number[];
+  fullPriceTickets: string;
+  reducedPriceTickets: string;
 }
+//TODO mobile variant
+//TODO fix personalinfo valid on back
 
 type SeatSelectProps = SeatSelect & StepProps;
 
@@ -45,9 +47,11 @@ const SeatSelect = ({
   validSteps,
   setValidSteps,
   currentStep,
+  displayErrors,
 }: SeatSelectProps) => {
   const stepIsValid =
     selectedSeats.length === +fullPriceTickets + +reducedPriceTickets;
+  const [error, setError] = useState("");
 
   const handleUpdateSelectedSeats = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -76,17 +80,24 @@ const SeatSelect = ({
   useEffect(() => {
     if (stepIsValid && !validSteps.includes(currentStep)) {
       setValidSteps((prev) => [...prev, currentStep]);
+      setError("");
     } else if (!stepIsValid) {
       let newValidSteps = validSteps.filter((step) => step !== currentStep);
       setValidSteps(newValidSteps);
+      setError(
+        `Select ${+fullPriceTickets + +reducedPriceTickets} seat${
+          +fullPriceTickets + +reducedPriceTickets > 1 ? "s" : ""
+        }`
+      );
     }
   }, [stepIsValid]);
 
   return (
     <FormWrapper title="Choose Your Seats">
-      <div className="grid grid-cols-4 gap-x-1 gap-y-4 h-48">
+      <div className="grid grid-cols-4 gap-y-2 h-42 ">
         {seats.map((seat, index) => (
           <div
+            key={seat}
             className={`flex justify-center ${
               parseInt(seat) % 2 === 0 && parseInt(seat) % 4 !== 0
                 ? "mr-6"
@@ -100,16 +111,18 @@ const SeatSelect = ({
                 checked={selectedSeats.includes(seat)}
                 type="checkbox"
                 onChange={(e) => handleUpdateSelectedSeats(e)}
-                key={seat}
                 className=" w-6 h-6  opacity-0 peer absolute cursor-pointer"
               />
-              <div className="w-6 h-6 border-2 border-black border-solid bg-gray-200 peer-checked:bg-yellow-300 rounded-md flex items-center justify-center text-xs">
+              <div className="w-6 h-6  bg-blue-100  text-gray-700 peer-checked:bg-blue-400 peer-checked:text-white rounded-md flex items-center justify-center text-xs">
                 {seat}
               </div>
             </label>
           </div>
         ))}
-      </div>
+      </div>{" "}
+      {displayErrors && error.length > 0 && (
+        <div className="text-xs text-red-500 h-3 mt-4 ml-4">{error}</div>
+      )}
     </FormWrapper>
   );
 };
