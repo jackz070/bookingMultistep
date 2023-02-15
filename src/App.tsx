@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PersonalInfo from "./components/formPages/PersonalInfo";
 import SeatSelect from "./components/formPages/SeatSelect";
 import Summary from "./components/formPages/Summary";
@@ -48,7 +48,6 @@ function App() {
       setValidSteps={setValidSteps}
       currentStep={currentStep}
     />,
-
     <PersonalInfo
       {...data}
       updateData={updateData}
@@ -57,7 +56,6 @@ function App() {
       setValidSteps={setValidSteps}
       currentStep={currentStep}
     />,
-
     <Summary {...data} />,
   ];
 
@@ -143,10 +141,7 @@ function App() {
               {isLastStep && !isSubmitting && !isSuccess && "Confirm"}
               {!isLastStep && "Next"}
               {isLastStep && isSubmitting && !isSuccess && (
-                <div
-                  className="w-full flex justify-center
-                "
-                >
+                <div className="w-full flex justify-center">
                   <ThreeDots
                     height="24"
                     width="38"
@@ -165,7 +160,7 @@ function App() {
           </div>
         </form>
         <div className="overflow-hidden sm:block hidden -top-80">
-          <img src={pic1} className="h-full w-full rounded-r-sm opacity-95 " />
+          <img src={pic1} className="h-full w-full rounded-r-sm opacity-95" />
         </div>
       </div>
     </div>

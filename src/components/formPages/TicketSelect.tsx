@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import FormWrapper from "../FormWrapper";
 import FormField from "../FormField";
-import { StepProps, FormData } from "../../types";
+import { StepProps } from "../../types";
 
 interface TicketSelect {
   fullPriceTickets: string;
@@ -23,6 +23,7 @@ const TicketSelect = ({
     fullPriceTickets: false,
     reducedPriceTickets: false,
   });
+
   const [globalValidationError, setGlobalValidationError] = useState("");
 
   const validateTickets = () =>

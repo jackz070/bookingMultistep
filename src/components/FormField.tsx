@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldProps } from "../types";
 
 type FormFieldProps = FieldProps & {
@@ -84,8 +84,6 @@ const FormField = ({
     updateAndValidate(value);
   }, [displayErrors, value]);
 
-  // TODO positive validationb mark / visual info on state
-  //TODO confirm button loading state, done message
   return (
     <div className="flex flex-col gap-1 items-start mb-1 w-full ">
       <label className="sm:text-sm text-lg text-gray-600 font-light relative">
