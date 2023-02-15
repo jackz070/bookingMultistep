@@ -45,7 +45,7 @@ const TicketSelect = ({
       <FormWrapper title="Select Tickets">
         <div className="flex flex-col gap-4 items-start w-[full]">
           <FormField
-            fieldDesc="Full Price Tickets"
+            fieldDesc="Full Price Tickets - 16 USD"
             fieldName="fullPriceTickets"
             value={fullPriceTickets}
             updateData={updateData}
@@ -60,7 +60,7 @@ const TicketSelect = ({
             max="8"
           />
           <FormField
-            fieldDesc="Reduced Price Tickets"
+            fieldDesc="Reduced Price Tickets - 8 USD"
             fieldName="reducedPriceTickets"
             value={reducedPriceTickets}
             updateData={updateData}
@@ -73,6 +73,7 @@ const TicketSelect = ({
             setGlobalValidationError={setGlobalValidationError}
             min="0"
             max="8"
+            notice="Reduced price tickets available for children, students up to 26 years old and seniors above 65 years old."
           />
         </div>
         {displayErrors && globalValidationError && (

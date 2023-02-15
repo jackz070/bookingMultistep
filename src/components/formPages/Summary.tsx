@@ -11,7 +11,7 @@ const Summary = ({
 }: Partial<FormData>) => {
   return (
     <FormWrapper title="Summary">
-      <div className="leading-relaxed font-light text-gray-700">
+      <div className="leading-relaxed font-light text-gray-700 sm:mt-2 mt-12">
         {firstName} {lastName}, your order consists of:
         <br />
         <div className="flex flex-col  gap-2 mx-4 my-4">

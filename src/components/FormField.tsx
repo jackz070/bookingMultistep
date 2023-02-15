@@ -13,6 +13,7 @@ type FormFieldProps = FieldProps & {
   setGlobalValidationError?: (value: string) => void;
   min?: string;
   max?: string;
+  notice?: string;
 };
 
 const FormField = ({
@@ -29,6 +30,7 @@ const FormField = ({
   setGlobalValidationError,
   min,
   max,
+  notice,
 }: FormFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const [touched, setTouched] = useState(false);
@@ -85,9 +87,25 @@ const FormField = ({
   // TODO positive validationb mark / visual info on state
   //TODO confirm button loading state, done message
   return (
-    <div className="flex flex-col gap-1 items-start mb-1 w-full">
-      <label className="sm:text-sm text-lg text-gray-600 font-light">
+    <div className="flex flex-col gap-1 items-start mb-1 w-full ">
+      <label className="sm:text-sm text-lg text-gray-600 font-light relative">
         {fieldDesc}
+        {notice && (
+          <>
+            <span
+              onTouchStart={() => {}}
+              className="ml-2 border-b-[1px] border-black border-dotted cursor-pointer hover:text-blue-500 peer inline-block w-3 text-center"
+            >
+              ?
+            </span>
+            <div
+              className="absolute bg-white border-[1px] border-blue-200 rounded-md p-4 invisible 
+            peer-hover:visible -right-6 top-6 w-[90%]"
+            >
+              {notice}
+            </div>
+          </>
+        )}
       </label>
 
       <input

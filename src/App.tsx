@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PersonalInfo from "./components/formPages/PersonalInfo";
 import SeatSelect from "./components/formPages/SeatSelect";
 import Summary from "./components/formPages/Summary";
@@ -93,14 +93,14 @@ function App() {
       }, 1000);
       setTimeout(() => {
         setIsSuccess(false);
-      }, 2000);
+      }, 4000);
     };
     submitting();
   };
 
   return (
     <div className="w-full h-[100vh] flex  items-center justify-center sm:bg-slate-200 bg-white">
-      <div className="w-[100vw] sm:w-[38rem] h-full sm:h-2/5 sm:bg-white bg-transparent relative  min-h-[31rem] flex">
+      <div className="w-[100vw] sm:w-[39rem] h-full sm:h-2/5 sm:bg-white bg-transparent relative  min-h-[33rem] flex">
         <div className="overflow-hidden sm:hidden absolute h-44 w-full ">
           <img
             src={pic1}
@@ -123,7 +123,7 @@ function App() {
               <button
                 type="button"
                 onClick={prev}
-                className="py-2 px-6 cursor-pointer border-[1px] border-gray-300 rounded-md hover:bg-gray-100 font-light text-gray-500 uppercase"
+                className="py-2 px-6 cursor-pointer border-[1px] border-gray-300 rounded-md hover:bg-gray-100 font-light text-gray-500 "
               >
                 Back
               </button>
@@ -132,7 +132,7 @@ function App() {
               type="submit"
               className={`${
                 !isLastStep ? "bg-blue-400" : ""
-              } text-white sm:py-2 py-4 uppercase px-6 rounded-md cursor-pointer ${
+              } text-white sm:py-2 py-4 uppercase px-6 rounded-md cursor-pointer relative ${
                 !currentStepIsValid &&
                 !isLastStep &&
                 `bg-blue-300 text-gray-100 `
@@ -158,7 +158,9 @@ function App() {
                   />
                 </div>
               )}
-              {isLastStep && !isSubmitting && isSuccess && <div>Success</div>}
+              {isLastStep && !isSubmitting && isSuccess && (
+                <div className={`animate-appear`}>Success</div>
+              )}
             </button>
           </div>
         </form>

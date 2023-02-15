@@ -94,32 +94,41 @@ const SeatSelect = ({
 
   return (
     <FormWrapper title="Choose Your Seats">
-      <div className="grid grid-cols-4 gap-y-2 sm:h-44 h-64 sm:w-fit w-fit">
-        {seats.map((seat, index) => (
-          <div
-            key={seat}
-            className={`flex justify-center ${
-              parseInt(seat) % 2 === 0 && parseInt(seat) % 4 !== 0
-                ? "mr-6"
-                : null
-            } ${index % 2 === 0 && index % 4 !== 0 ? "ml-6" : null}`}
-          >
-            <label htmlFor={seat}>
-              <input
-                name={seat}
-                value={seat}
-                checked={selectedSeats.includes(seat)}
-                type="checkbox"
-                onChange={(e) => handleUpdateSelectedSeats(e)}
-                className="sm:w-6 sm:h-6 w-9 h-9 opacity-0 peer absolute cursor-pointer"
-              />
-              <div className="sm:w-6 sm:h-6 w-9 h-9  bg-blue-100  text-gray-700 peer-checked:bg-blue-400 peer-checked:text-white rounded-md flex items-center justify-center sm:text-xs text-base">
-                {seat}
-              </div>
-            </label>
-          </div>
-        ))}
-      </div>{" "}
+      <p className="text-sm font-light text-gray-700 -mt-3 mb-3">
+        Top of the chart is front of the bus. Unavailable seats are shown in
+        gray.
+      </p>
+      <div
+        className="w-full flex justify-center
+      "
+      >
+        <div className="grid grid-cols-4 gap-y-2 sm:h-44 h-64 w-fit">
+          {seats.map((seat, index) => (
+            <div
+              key={seat}
+              className={`flex justify-center ${
+                parseInt(seat) % 2 === 0 && parseInt(seat) % 4 !== 0
+                  ? "mr-6"
+                  : null
+              } ${index % 2 === 0 && index % 4 !== 0 ? "ml-6" : null}`}
+            >
+              <label htmlFor={seat}>
+                <input
+                  name={seat}
+                  value={seat}
+                  checked={selectedSeats.includes(seat)}
+                  type="checkbox"
+                  onChange={(e) => handleUpdateSelectedSeats(e)}
+                  className="sm:w-6 sm:h-6 w-9 h-9 opacity-0 peer absolute cursor-pointer"
+                />
+                <div className="sm:w-6 sm:h-6 w-9 h-9  bg-blue-100  text-gray-700 peer-checked:bg-blue-400 peer-checked:text-white rounded-md flex items-center justify-center sm:text-xs text-base">
+                  {seat}
+                </div>
+              </label>
+            </div>
+          ))}
+        </div>
+      </div>
       {displayErrors && error.length > 0 && (
         <div className="text-xs text-red-500 h-3 mt-4 ml-4">{error}</div>
       )}
