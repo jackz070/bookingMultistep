@@ -82,23 +82,36 @@ const FormField = ({
     updateAndValidate(value);
   }, [displayErrors, value]);
 
+  // TODO positive validationb mark / visual info on state
+  //TODO confirm button loading state, done message
   return (
-    <div className="flex flex-col gap-1 items-start mb-1">
-      <label className="text-sm ">{fieldDesc}</label>
+    <div className="flex flex-col gap-1 items-start mb-1 w-full">
+      <label className="sm:text-sm text-lg text-gray-600 font-light">
+        {fieldDesc}
+      </label>
 
       <input
         type={type}
         value={value}
+        inputMode={type === "number" ? "numeric" : "text"}
         onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
           updateAndValidate(e.target.value)
         }
-        className="bg-gray-200 p-1"
+        className={`border-[1px] rounded-lg border-blue-200 p-2 sm:text-base text-lg sm:min-w-[10rem] min-w-[12rem] w-full ${
+          type === "number" ? "text-center" : null
+        }`}
         onFocus={() => {
           setIsFocused(true);
+          if (type === "number" && value === "0") {
+            updateAndValidate("");
+          }
         }}
         onBlur={(e) => {
           updateAndValidate(e.target.value);
           setIsFocused(false);
+          if (type === "number" && value === "") {
+            updateAndValidate("0");
+          }
         }}
         min={min ? min : undefined}
         max={max ? max : undefined}

@@ -41,9 +41,9 @@ const TicketSelect = ({
   }, [stepIsValid]);
 
   return (
-    <section className="flex gap-4">
+    <section className="flex gap-4 w-full">
       <FormWrapper title="Select Tickets">
-        <div className="flex flex-col gap-4 items-start max-w-xs ">
+        <div className="flex flex-col gap-4 items-start w-[full]">
           <FormField
             fieldDesc="Full Price Tickets"
             fieldName="fullPriceTickets"

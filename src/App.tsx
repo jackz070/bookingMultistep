@@ -5,6 +5,7 @@ import Summary from "./components/formPages/Summary";
 import TicketSelect from "./components/formPages/TicketSelect";
 import { FormData } from "./types";
 import pic1 from "./assets/pic1.jpg";
+import { ThreeDots } from "react-loader-spinner";
 
 const INIT_DATA: FormData = {
   firstName: "",
@@ -78,18 +79,40 @@ function App() {
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === steps.length - 1;
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!isLastStep) return next();
-    alert("Done");
+    const submitting = () => {
+      setIsSubmitting(true);
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+      }, 1000);
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 2000);
+    };
+    submitting();
   };
 
   return (
     <div className="w-full h-[100vh] flex  items-center justify-center sm:bg-slate-200 bg-white">
-      <div className="w-[100vw] sm:w-[38rem] h-full sm:h-2/5 sm:bg-white bg-transparent relative  min-h-[31rem] flex ">
-        <form onSubmit={onSubmit} className="p-12 pt-20  sm:w-[60%] w-full">
+      <div className="w-[100vw] sm:w-[38rem] h-full sm:h-2/5 sm:bg-white bg-transparent relative  min-h-[31rem] flex">
+        <div className="overflow-hidden sm:hidden absolute h-44 w-full ">
+          <img
+            src={pic1}
+            className="h-full w-full rounded-r-sm opacity-95 object-cover object-top"
+          />
+        </div>
+        <form
+          onSubmit={onSubmit}
+          className="sm:p-12 p-6 pt-20 sm:w-[60%] w-full"
+        >
           <div
-            className="absolute top-12 left-12 text-sm
+            className="absolute sm:top-12 top-24 sm:left-12 text-sm sm:text-black text-white
         "
           >
             {currentStep + 1} / {steps.length}
@@ -100,7 +123,7 @@ function App() {
               <button
                 type="button"
                 onClick={prev}
-                className="py-2 px-6 cursor-pointer bg-gray-300 rounded-md hover:bg-gray-200"
+                className="py-2 px-6 cursor-pointer border-[1px] border-gray-300 rounded-md hover:bg-gray-100 font-light text-gray-500 uppercase"
               >
                 Back
               </button>
@@ -109,19 +132,37 @@ function App() {
               type="submit"
               className={`${
                 !isLastStep ? "bg-blue-400" : ""
-              } text-white py-2 px-6 rounded-md cursor-pointer ${
+              } text-white sm:py-2 py-4 uppercase px-6 rounded-md cursor-pointer ${
                 !currentStepIsValid &&
                 !isLastStep &&
                 `bg-blue-300 text-gray-100 `
               } hover:bg-blue-300 ${
                 isLastStep && "bg-green-500 hover:bg-green-400"
-              }`}
+              }  w-[100%] sm:w-32 font-bold`}
             >
-              {isLastStep ? "Confirm" : "Next"}
+              {isLastStep && !isSubmitting && !isSuccess && "Confirm"}
+              {!isLastStep && "Next"}
+              {isLastStep && isSubmitting && !isSuccess && (
+                <div
+                  className="w-full flex justify-center
+                "
+                >
+                  <ThreeDots
+                    height="24"
+                    width="38"
+                    radius="9"
+                    color="white"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    visible={true}
+                  />
+                </div>
+              )}
+              {isLastStep && !isSubmitting && isSuccess && <div>Success</div>}
             </button>
           </div>
         </form>
-        <div className="overflow-hidden sm:block hidden -top-80 ">
+        <div className="overflow-hidden sm:block hidden -top-80">
           <img src={pic1} className="h-full w-full rounded-r-sm opacity-95 " />
         </div>
       </div>

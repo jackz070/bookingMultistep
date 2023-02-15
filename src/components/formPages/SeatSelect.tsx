@@ -94,7 +94,7 @@ const SeatSelect = ({
 
   return (
     <FormWrapper title="Choose Your Seats">
-      <div className="grid grid-cols-4 gap-y-2 h-42 ">
+      <div className="grid grid-cols-4 gap-y-2 sm:h-44 h-64 sm:w-fit w-fit">
         {seats.map((seat, index) => (
           <div
             key={seat}
@@ -111,9 +111,9 @@ const SeatSelect = ({
                 checked={selectedSeats.includes(seat)}
                 type="checkbox"
                 onChange={(e) => handleUpdateSelectedSeats(e)}
-                className=" w-6 h-6  opacity-0 peer absolute cursor-pointer"
+                className="sm:w-6 sm:h-6 w-9 h-9 opacity-0 peer absolute cursor-pointer"
               />
-              <div className="w-6 h-6  bg-blue-100  text-gray-700 peer-checked:bg-blue-400 peer-checked:text-white rounded-md flex items-center justify-center text-xs">
+              <div className="sm:w-6 sm:h-6 w-9 h-9  bg-blue-100  text-gray-700 peer-checked:bg-blue-400 peer-checked:text-white rounded-md flex items-center justify-center sm:text-xs text-base">
                 {seat}
               </div>
             </label>
