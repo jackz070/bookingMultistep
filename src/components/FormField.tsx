@@ -86,7 +86,10 @@ const FormField = ({
 
   return (
     <div className="flex flex-col gap-1 items-start mb-1 w-full ">
-      <label className="sm:text-sm text-lg text-gray-600 font-light relative">
+      <label
+        className="sm:text-sm text-lg text-gray-600 font-light relative"
+        htmlFor={fieldName}
+      >
         {fieldDesc}
         {notice && (
           <>
@@ -107,6 +110,7 @@ const FormField = ({
       </label>
 
       <input
+        id={fieldName}
         type={type}
         value={value}
         inputMode={type === "number" ? "numeric" : "text"}
