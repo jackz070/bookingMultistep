@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Summary from "../components/formPages/Summary";
 import { faker } from "@faker-js/faker";
-import { isFirstRun } from "vitest";
 
 const fakeData = {
   firstName: faker.name.firstName(),

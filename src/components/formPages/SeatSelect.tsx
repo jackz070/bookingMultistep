@@ -112,6 +112,7 @@ const SeatSelect = ({
             >
               <label htmlFor={seat}>
                 <input
+                  id={seat}
                   name={seat}
                   value={seat}
                   checked={selectedSeats.includes(seat)}
@@ -119,9 +120,12 @@ const SeatSelect = ({
                   onChange={(e) => handleUpdateSelectedSeats(e)}
                   className="sm:w-6 sm:h-6 w-9 h-9 opacity-0 peer absolute cursor-pointer"
                 />
-                <div className="sm:w-6 sm:h-6 w-9 h-9 bg-blue-100 text-gray-700 peer-checked:bg-blue-400 peer-checked:text-white rounded-md flex items-center justify-center sm:text-xs text-base">
+                <label
+                  htmlFor={seat}
+                  className="sm:w-6 sm:h-6 w-9 h-9 bg-blue-100 text-gray-700 peer-checked:bg-blue-400 peer-checked:text-white rounded-md flex items-center justify-center sm:text-xs text-base"
+                >
                   {seat}
-                </div>
+                </label>
               </label>
             </div>
           ))}
