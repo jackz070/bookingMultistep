@@ -29,7 +29,7 @@ describe("Multistep form component", () => {
 
     //step 3 renders as expected
     expect(screen.getByText("3 / 4"));
-    screen.debug();
+
 
     const firstName = faker.name.firstName();
     const lastName = faker.name.lastName();

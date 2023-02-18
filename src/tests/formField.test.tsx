@@ -7,84 +7,66 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-const user = userEvent.setup();
-
 describe("FormField component", () => {
-  it("renders textbox with label and calls updateData on input", async () => {
-    const mockUpdateData = vi.fn();
-    render(
-      <FormField
-        fieldDesc="Text Field"
-        fieldName="textField"
-        value=""
-        updateData={mockUpdateData}
-        displayErrors={false}
-        validation={vi.fn()}
-        isValid={[]}
-        setIsValid={vi.fn()}
-        type="text"
-      />
-    );
-    expect(screen.getByText(/text field/i));
-    expect(screen.getByRole("textbox"));
-    await user.click(screen.getByLabelText(/text field/i));
-    await user.keyboard("test");
-    expect(mockUpdateData).toHaveBeenCalled();
+  const mockProps = {
+    fieldDesc: "Field Description",
+    fieldName: "field_name",
+    value: "test value",
+    updateData: vi.fn(),
+    displayErrors: true,
+    isValid: {},
+    setIsValid: vi.fn(),
+    validation: vi.fn(),
+    type: "text",
+    globalValidate: false,
+    setGlobalValidationError: vi.fn(),
+    min: undefined,
+    max: undefined,
+    notice: undefined,
+  };
+
+  it("renders input and label correctly", async () => {
+    render(<FormField {...mockProps} />);
+    const inputElement = screen.getByRole("textbox");
+    expect(inputElement).toBeInTheDocument();
+    expect(inputElement).toHaveAttribute("type", "text");
+    expect(inputElement).toHaveAttribute("value", "test value");
+  });
+
+  it("calls updateData and validation when input value is changed", async () => {
+    const user = userEvent.setup();
+    const testValue = "test";
+
+    render(<FormField {...mockProps} />);
+    const inputElement = screen.getByRole("textbox");
+    await user.click(inputElement);
+    await user.keyboard(testValue);
+    expect(mockProps.updateData).toHaveBeenCalledTimes(testValue.length + 1);
+    expect(mockProps.validation).toHaveBeenCalledTimes(testValue.length + 1);
   });
 
   it("displays error if value is invalid", () => {
-    render(
-      <FormField
-        fieldDesc="Text Field"
-        fieldName="textField"
-        value=""
-        updateData={vi.fn()}
-        displayErrors={true}
-        validation={vi.fn(() => false)}
-        isValid={[]}
-        setIsValid={vi.fn()}
-        type="text"
-      />
-    );
+    mockProps.validation.mockReturnValue(false);
+    const modifiedMockProps = { ...mockProps, value: "" };
+    render(<FormField {...modifiedMockProps} />);
     expect(screen.getByRole("textbox")).toHaveValue("");
-    expect(screen.getByText(/please enter valid text field/i));
+    expect(screen.getByText(/please enter valid field description/i));
   });
 
   it("displays no error if value is valid and calls setIsValid to let the form know that it's valid", () => {
-    const mockSetIsValid = vi.fn();
-    render(
-      <FormField
-        fieldDesc="Text Field"
-        fieldName="textField"
-        value="text value"
-        updateData={vi.fn()}
-        displayErrors={true}
-        validation={vi.fn(() => true)}
-        isValid={[]}
-        setIsValid={mockSetIsValid}
-        type="text"
-      />
-    );
-    expect(screen.queryByText(/please enter valid text field/i)).toBeNull();
-    expect(screen.getByRole("textbox")).toHaveValue("text value");
-    expect(mockSetIsValid).toHaveBeenCalled();
+    mockProps.validation.mockReturnValue(true);
+    render(<FormField {...mockProps} />);
+    expect(
+      screen.queryByText(/please enter valid field description/i)
+    ).toBeNull();
+    expect(screen.getByRole("textbox")).toHaveValue(mockProps.value);
+    expect(mockProps.setIsValid).toHaveBeenCalled();
   });
 
   it("has role of spinbutton if input type is number and its value is of type number", () => {
-    render(
-      <FormField
-        fieldDesc="Text Field"
-        fieldName="textField"
-        value="2"
-        updateData={vi.fn()}
-        displayErrors={true}
-        validation={vi.fn()}
-        isValid={[]}
-        setIsValid={vi.fn()}
-        type="number"
-      />
-    );
-
+    const modifiedMockProps = { ...mockProps, value: "2", type: "number" };
+    render(<FormField {...modifiedMockProps} />);
     expect(screen.getByRole("spinbutton")).toHaveValue(2);
+    expect(screen.getByRole("spinbutton")).toHaveAttribute("type", "number");
   });
 });
