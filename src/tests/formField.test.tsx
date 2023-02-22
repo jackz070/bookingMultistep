@@ -2,6 +2,7 @@ import FormField from "../components/FormField";
 import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
+import { axe } from "vitest-axe";
 
 afterEach(() => {
   vi.clearAllMocks();
@@ -68,5 +69,12 @@ describe("FormField component", () => {
     render(<FormField {...modifiedMockProps} />);
     expect(screen.getByRole("spinbutton")).toHaveValue(2);
     expect(screen.getByRole("spinbutton")).toHaveAttribute("type", "number");
+  });
+
+  it("has no axe accessibility violations", async () => {
+    render(<FormField {...mockProps} />);
+    const inputElement = screen.getByRole("textbox");
+    const results = await axe(inputElement);
+    expect(results).toHaveNoViolations();
   });
 });
