@@ -137,7 +137,7 @@ const FormField = ({
         max={max ? max : undefined}
       />
 
-      <div className="text-xs text-red-500 h-3">
+      <div className="text-xs text-red-500 h-3" role="alert">
         {!globalValidate &&
           (displayErrors || (touched && blurredOnce)) &&
           error &&
